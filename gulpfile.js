@@ -55,7 +55,7 @@ function browserReload(done) {
 
 function images() {
     return gulp.src(paths.images.src)
-        // .pipe(image())
+        .pipe(image())
         .pipe(gulp.dest(paths.images.dest))
         .pipe(browserSync.stream())
 }
