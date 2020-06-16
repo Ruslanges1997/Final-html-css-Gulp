@@ -10,6 +10,7 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglify-es').default;
 const browserSync = require('browser-sync').create();
 const del = require('del');
+const htmlmin = require('gulp-htmlmin');
 
 const paths = {
     images: {
@@ -50,6 +51,8 @@ function browserReload(done) {
     done();
 }
 
+
+
 function images() {
     return gulp.src(paths.images.src)
         // .pipe(image())
@@ -81,6 +84,7 @@ function scripts() {
 }
 function html() {
     return gulp.src(paths.html.src)
+        .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(gulp.dest(paths.html.dest))
         .pipe(browserSync.stream())
 }
@@ -95,6 +99,7 @@ function watch() {
 function clear() {
     return del(['build']);
 }
+
 const build = gulp.series(clear, gulp.parallel(images, styles, font, scripts, html));
 gulp.task('build', build);
 gulp.task('default', gulp.parallel(watch, browser, build));
